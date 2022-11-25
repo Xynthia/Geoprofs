@@ -1,0 +1,111 @@
+﻿@page
+@model GeoprofsXyn.Pages.Users.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Rol)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Naam</th>
+                </tr>
+                @foreach (var item in Model.User.Rol)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naam)
+                        </td>
+                    </tr>
+                }
+                
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Team)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Naam</th>
+                </tr>
+                @foreach (var item in Model.User.Team)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.Naam)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Verlof)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Naam</th>
+                    <th>Omschrijving</th>
+                    <th>Begin Datum</th>
+                    <th>Eind Datum</th>
+                </tr>
+                @foreach (var item in Model.User.Verlof)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Omschrijving)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeginDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EindDatum)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Naam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Wachtwoord)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Wachtwoord)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.VerlofUren)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.VerlofUren)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.User?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
