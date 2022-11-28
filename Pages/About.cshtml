@@ -1,0 +1,30 @@
+﻿@page
+@model GeoprofsXyn.Pages.AboutModel
+@{
+	ViewData["Title"] = "User Verlof Statistics";
+}
+
+<h2>User Verlof Statistics</h2>
+
+<table>
+	<tr>
+		<th>
+			Verlof BeginDatum
+		</th>
+		<th>
+			Users
+		</th>
+	</tr>
+
+	@foreach (var item in Model.users)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.VerlofBeginDatum)
+			</td>
+			<td>
+				@item.VerlofCount
+			</td>
+		</tr>
+	}
+</table>
