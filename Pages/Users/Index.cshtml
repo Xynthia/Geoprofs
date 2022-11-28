@@ -10,6 +10,17 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-page="./Index">Back to full list</a>
+        </p>
+    </div>    
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -20,9 +31,9 @@
                 @Html.DisplayNameFor(model => model.Users[0].Team)
             </th>
             <th>
-                <a asp-page="./Index" asp-route-soortOrder="@Model.naamSort">
-                     @Html.DisplayNameFor(model => model.Users[0].Naam)
-                    </a>
+                <a asp-page="./Index" asp-route-soortOrder="@Model.NaamSort" asp-route-currentfilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Users[0].Naam)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Users[0].Email)
@@ -31,7 +42,7 @@
                 @Html.DisplayNameFor(model => model.Users[0].Wachtwoord)
             </th>
             <th>
-                <a asp-page="./Index" asp-route-soortOrder="@Model.datumSort">
+                <a asp-page="./Index" asp-route-soortOrder="@Model.DatumSort" asp-route-currentFilter="@Model.CurrentFilter">
                     @Html.DisplayNameFor(model => model.Users[0].VerlofUren)
                     </a>
                 
@@ -69,3 +80,23 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisable = !Model.Users.HasPreviousPage ? "disabled" : "";
+    var nextDisable = !Model.Users.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+    asp-route-soortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Users.PageIndex -1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @prevDisable">
+    Previous
+</a>  
+<a asp-page="./Index"
+    asp-route-soortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Users.PageIndex +1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @nextDisable">
+    Next
+</a>  

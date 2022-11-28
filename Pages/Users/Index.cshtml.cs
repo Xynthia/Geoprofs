@@ -13,25 +13,37 @@ namespace GeoprofsXyn.Pages.Users
     public class IndexModel : PageModel
     {
         private readonly GeoprofsXyn.Data.UserContext _context;
+        private readonly IConfiguration _configuration;
 
-        public IndexModel(GeoprofsXyn.Data.UserContext context)
+        public IndexModel(GeoprofsXyn.Data.UserContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
-        public string naamSort { get; set; }
-        public string datumSort { get; set; }
-        public string currentFilter { get; set; }
+        public string NaamSort { get; set; }
+        public string DatumSort { get; set; }
+        public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public IList<User> Users { get; set; } = default!;
+        public PaginatedList<User> Users { get; set; } = default!;
 
-        public async Task OnGetAsync(string soortOrder, string searchString)
+        public async Task OnGetAsync(string soortOrder, string searchString, string currentFilter, int? pageIndex)
         {
-            naamSort = String.IsNullOrEmpty(soortOrder) ? "naam_desc" : "";
-            datumSort = soortOrder == "VerlofUren" ? "verlofUren_desc" : "VerlofUren";
+            CurrentSort = soortOrder;
+            NaamSort = String.IsNullOrEmpty(soortOrder) ? "naam_desc" : "";
+            DatumSort = soortOrder == "VerlofUren" ? "verlofUren_desc" : "VerlofUren";
 
-            currentFilter = searchString;
+            if(searchString != null)
+            {
+                    pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            CurrentFilter = searchString;
 
             IQueryable<User> UserIQ = from u in _context.User select u;
 
@@ -56,7 +68,8 @@ namespace GeoprofsXyn.Pages.Users
                     break;
             }
 
-            Users = await UserIQ.AsNoTracking().ToListAsync();
+            var pageSize = _configuration.GetValue("PageSize", 4);
+            Users = await PaginatedList<User>.CreateAsync(UserIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }
